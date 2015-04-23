@@ -22,8 +22,9 @@ module.exports = ObliqueStrategies =
 
     # Listen for keypress events to know when to display
     atom.workspaceView.eachEditorView (editorView) =>
-      editorView.on 'keypress', (event) =>
-        console.log 'keypress detected! ' + event
+      editorView.on 'keyup', (event) =>
+        @hide()
+      editorView.on 'mouseup', (event) =>
         @hide()
 
   deactivate: ->
@@ -34,26 +35,23 @@ module.exports = ObliqueStrategies =
   serialize: ->
     obliqueStrategiesViewState: @obliqueStrategiesView.serialize()
 
+  clearTimeouts: ->
+    clearTimeout @showTimeout
+    clearTimeout @hideTimeout
+    @showTimeout = null
+    @hideTimeout = null
+
   show: ->
     @modalPanel.show()
-
-    if @hideTimeout
-      console.log 'hideTimeout already set, skipping...'
-    else
-      console.log 'setting hideTimeout'
-      @hideTimeout = setTimeout =>
-        console.log 'hideTimeout ran out, hiding strategy'
-        @hide()
-      , @autoHideSeconds * 1000
+    @clearTimeouts()
+    @hideTimeout = setTimeout =>
+      console.log 'hideTimeout ran out, hiding strategy'
+      @hide()
+    , @autoHideSeconds * 1000
 
   hide: ->
     @modalPanel.hide()
-
-    # Clear the existing timeout
-    @hideTimeout = null
-    if @showTimeout
-      @showTimeout = null
-
+    @clearTimeouts()
     # Set a new timeout to display a strategy
     @showTimeout = setTimeout =>
       console.log 'showTimeout ran out, displaying strategy'

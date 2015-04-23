@@ -7,7 +7,12 @@ class ObliqueStrategiesView
 
     # Create message element
     message = document.createElement('div')
-    message.textContent = "The ObliqueStrategies package is Alive! It's ALIVE!"
+    messageHeader = document.createElement('h1')
+    messageHeader.textContent = "Oblique Strategies"
+    messageContent = document.createElement('p')
+    messageContent.textContent = "The ObliqueStrategies package is Alive! It's ALIVE!"
+    message.appendChild(messageHeader)
+    message.appendChild(messageContent)
     message.classList.add('message')
     @element.appendChild(message)
 
