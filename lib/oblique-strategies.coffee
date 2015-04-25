@@ -1,10 +1,18 @@
-ObliqueStrategiesView = require './oblique-strategies-view'
 {CompositeDisposable} = require 'atom'
 
 module.exports = ObliqueStrategies =
-  # obliqueStrategiesView: null
+
+  # Exported configuration settings
+  config:
+    showAfterInactivitySeconds:
+      title: 'Inactivity Trigger'
+      description: 'Number of seconds of inactivity before a strategy is displayed.'
+      type: 'integer'
+      default: 10
+      minimum: 1
+
   subscriptions: null
-  showAfterInactivitySeconds: 10 # TODO: Maybe a min/max, with random timer?
+
   showTimeout: null
 
   activate: (state) ->
@@ -30,7 +38,9 @@ module.exports = ObliqueStrategies =
 
   startShowTimeout: ->
     clearTimeout @showTimeout
+    inactiveSec = atom.config.get('oblique-strategies.showAfterInactivitySeconds')
+    console.log 'inactive sec', inactiveSec
     @showTimeout = setTimeout =>
       console.log 'showTimeout ran out, displaying strategy'
       @show()
-    , @showAfterInactivitySeconds * 1000
+    , inactiveSec * 1000
