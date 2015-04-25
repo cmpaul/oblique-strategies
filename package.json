@@ -1,12 +1,12 @@
 {
   "name": "oblique-strategies",
   "main": "./lib/oblique-strategies",
-  "version": "0.0.0",
-  "description": "A short description of your package",
+  "version": "0.0.1",
+  "description": "Oblique strategies for developers",
   "activationCommands": {
     "atom-workspace": "oblique-strategies:toggle"
   },
-  "repository": "https://github.com/atom/oblique-strategies",
+  "repository": "https://github.com/cmpaul/oblique-strategies",
   "license": "MIT",
   "engines": {
     "atom": ">=0.174.0 <2.0.0"

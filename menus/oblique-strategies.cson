@@ -1,8 +1,8 @@
-# See https://atom.io/docs/latest/hacking-atom-package-word-count#menus for more details
+# TODO: How to set this up to start automatically?
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle oblique-strategies'
+      'label': 'Toggle Oblique Strategies'
       'command': 'oblique-strategies:toggle'
     }
   ]
@@ -10,7 +10,7 @@
   {
     'label': 'Packages'
     'submenu': [
-      'label': 'oblique-strategies'
+      'label': 'Oblique Strategies'
       'submenu': [
         {
           'label': 'Toggle'

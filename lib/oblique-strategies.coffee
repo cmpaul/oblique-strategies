@@ -2,18 +2,12 @@ ObliqueStrategiesView = require './oblique-strategies-view'
 {CompositeDisposable} = require 'atom'
 
 module.exports = ObliqueStrategies =
-  obliqueStrategiesView: null
-  modalPanel: null
+  # obliqueStrategiesView: null
   subscriptions: null
-  autoHideSeconds: 10
-  showAfterInactivitySeconds: 60
-  hideTimeout: null
+  showAfterInactivitySeconds: 10 # TODO: Maybe a min/max, with random timer?
   showTimeout: null
 
   activate: (state) ->
-    @obliqueStrategiesView = new ObliqueStrategiesView(state.obliqueStrategiesViewState)
-    @modalPanel = atom.workspace.addModalPanel(item: @obliqueStrategiesView.getElement(), visible: false)
-
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
 
@@ -23,50 +17,20 @@ module.exports = ObliqueStrategies =
     # Listen for keypress events to know when to display
     atom.workspaceView.eachEditorView (editorView) =>
       editorView.on 'keyup', (event) =>
-        @hide()
-      editorView.on dd'mouseup', (event) =>
-        @hide()
+        @startShowTimeout()
 
   deactivate: ->
-    @modalPanel.destroy()
     @subscriptions.dispose()
-    @obliqueStrategiesView.destroy()
-
-  serialize: ->
-    obliqueStrategiesViewState: @obliqueStrategiesView.serialize()
-
-  clearTimeouts: ->
-    clearTimeout @showTimeout
-    clearTimeout @hideTimeout
-    @showTimeout = null
-    @hideTimeout = null
-
-  startHideTimeout: ->
-    @clearTimeouts()
-    @hideTimeout = setTimeout =>
-      console.log 'hideTimeout ran out, hiding strategy'
-      @hide()
-    , @autoHideSeconds * 1000
 
   show: ->
-    @modalPanel.show()
-    @startHideTimeout()
+    console.log 'showing!'
+    # TODO: Cycle through random strategies
+    atom.notifications.addInfo("Breathe more deeply");
+    @startShowTimeout()
 
   startShowTimeout: ->
-    @clearTimeouts()
+    clearTimeout @showTimeout
     @showTimeout = setTimeout =>
       console.log 'showTimeout ran out, displaying strategy'
       @show()
     , @showAfterInactivitySeconds * 1000
-
-  hide: ->
-    @modalPanel.hide()
-    @startShowTimeout()
-
-  toggle: ->
-    console.log 'ObliqueStrategies was toggled!'
-
-    if @modalPanel.isVisible()
-      @hide()
-    else
-      @show()
