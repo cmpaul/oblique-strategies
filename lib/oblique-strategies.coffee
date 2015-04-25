@@ -12,6 +12,18 @@ module.exports = ObliqueStrategies =
 
   # Exported configuration settings
   config:
+    # TODO: Figure out how to do this!
+    enableOnLoad:
+      title: 'Enable on load',
+      description: '(Not yet implemented) Determines whether this package loads when Atom starts.'
+      type: 'boolean'
+      default: false
+    # TODO: Figure out how to do this!
+    areStrategiesSticky:
+      title: 'Sticky Strategies',
+      description: '(Not yet implemented) Determines whether strategies stick around after being displayed or dismiss themselves.'
+      type: 'boolean'
+      default: false
     showAfterInactivitySeconds:
       title: 'Inactivity Trigger'
       description: 'Number of seconds of inactivity before a strategy is displayed.'
@@ -39,7 +51,7 @@ module.exports = ObliqueStrategies =
         'A blink lasts 300 milliseconds.',
         'Zoom in.',
         'Add constraints.',
-        'Mark it WONTFIX.',
+        'Mark it: WONTFIX',
         'Verify your fears, explicitly.',
         'Keep calm.',
         'Take a closer look.',
@@ -56,7 +68,7 @@ module.exports = ObliqueStrategies =
         'Flip the problem around.',
         'Work forward from where the unfinished part of the code suggests you should.',
         'List dependencies to determine order of completion.',
-        'Try the naive method first.',
+        'Try the naïve method first.',
         'Do it both ways.',
         'Verify that your assumptions are correct.',
         'Every bug hunt is at worst a log time search through the code base.',
@@ -130,6 +142,8 @@ module.exports = ObliqueStrategies =
   showTimeout: null
 
   strategiesList: []
+
+  recentStrategiesList: []
 
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
