@@ -10,18 +10,23 @@
 
 module.exports = ObliqueStrategies =
 
+  # Properties
+  subscriptions: null
+  showTimeout: null
+  enabled: false
+  strategiesList: []
+  recentStrategiesList: []
+
   # Exported configuration settings
   config:
-    # TODO: Figure out how to do this!
     enableOnLoad:
       title: 'Enable on load',
-      description: '(Not yet implemented) Determines whether this package loads when Atom starts.'
+      description: 'Should this package start enabled?'
       type: 'boolean'
       default: false
-    # TODO: Figure out how to do this!
     areStrategiesSticky:
       title: 'Sticky Strategies',
-      description: '(Not yet implemented) Determines whether strategies stick around after being displayed or dismiss themselves.'
+      description: 'Should strategies automatically disappear?'
       type: 'boolean'
       default: false
     showAfterInactivitySeconds:
@@ -32,7 +37,7 @@ module.exports = ObliqueStrategies =
       minimum: 5
     strategiesList:
       title: 'Strategies List'
-      description: 'The following strategies will be displayed at random for inspiration!'
+      description: 'A comma-separated list of strategies that will be displayed at random for inspiration after a period of inactivity.'
       type: 'array'
       items:
         type: 'string'
@@ -137,41 +142,49 @@ module.exports = ObliqueStrategies =
         'You are an engineer.'
       ]
 
-  subscriptions: null
-
-  showTimeout: null
-
-  strategiesList: []
-
-  recentStrategiesList: []
-
   activate: (state) ->
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
-
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
-
-    # Load strategies into memory
-    @strategiesList = atom.config.get('oblique-strategies.strategiesList')
-
+    # Shuffle and load strategies into memory
+    @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
+    # Detect whether the package is enabled
+    @enabled = atom.config.get('oblique-strategies.enabled')
+    if @enabled
+      @startShowTimeout()
     # Listen for keypress events to know when to display
-    atom.workspaceView.eachEditorView (editorView) =>
-      editorView.on 'keyup', (event) =>
-        @startShowTimeout()
+    @addKeyupListener()
 
   deactivate: ->
     @subscriptions.dispose()
 
+  # The wonderfully efficient Fisher-Yates shuffle
+  # (http://bost.ocks.org/mike/shuffle/)
+  shuffle: (array) ->
+    m = array.length
+    while m
+      i = Math.floor(Math.random() * m--)
+      t = array[m]
+      array[m] = array[i]
+      array[i] = t
+    return array
+
+  addKeyupListener: ->
+    atom.workspaceView.eachEditorView (editorView) =>
+      editorView.on 'keyup', (event) =>
+        if @enabled
+          console.log 'enabled'
+          @startShowTimeout()
+        else
+          console.log 'disabled'
+
   show: ->
-    # Choose a random index
-    # TODO: Maybe keep a list of recently used items?
     console.log 'show'
-    index = Math.floor(Math.random() * @strategiesList.length)
-    console.log 'index', index
-    msg = @strategiesList[index];
+    msg = @strategiesList.pop()
     console.log 'msg', msg
-    atom.notifications.addInfo(msg);
+    atom.notifications.addInfo(msg, { dismissable: atom.config.get('oblique-strategies.areStrategiesSticky') });
+    @strategiesList.unshift msg
     @startShowTimeout()
 
   startShowTimeout: ->
@@ -183,12 +196,13 @@ module.exports = ObliqueStrategies =
     , inactiveSec * 1000
 
   toggle: ->
-    if @showTimeout
+    @enabled = !@enabled
+    if @enabled
+      console.log 'start'
+      # Start the timeout
+      @startShowTimeout()
+    else
       # Stop existing timeout
       console.log 'stop'
       clearTimeout @showTimeout
       @showTimeout = null
-    else
-      console.log 'start'
-      # Start the timeout
-      @startShowTimeout()
