@@ -34,7 +34,7 @@ module.exports = ObliqueStrategies =
       title: 'Inactivity Trigger'
       description: 'Number of seconds of inactivity before a strategy is displayed.'
       type: 'integer'
-      default: 30
+      default: 60
       minimum: 5
     strategiesList:
       title: 'Strategies List'
