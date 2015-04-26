@@ -151,8 +151,11 @@ module.exports = ObliqueStrategies =
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
     # Shuffle and load strategies into memory
     @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
-    # Listen for keypress events to know when to display
-    @addKeyupListener()
+    # Detect editor inactivity
+    atom.workspace.observeTextEditors (editor) =>
+      editor.onDidStopChanging () =>
+        if @enabled
+          @startShowTimeout()
     # Detect whether the package is enabled
     if atom.config.get('oblique-strategies.enableOnLoad')
       @toggle()
@@ -172,12 +175,6 @@ module.exports = ObliqueStrategies =
       array[i] = t
     return array
 
-  addKeyupListener: ->
-    atom.workspaceView.eachEditorView (editorView) =>
-      editorView.on 'keyup', (event) =>
-        if @enabled
-          @startShowTimeout()
-
   show: ->
     if @countdown > 0
       @countdown--
@@ -196,7 +193,6 @@ module.exports = ObliqueStrategies =
     , inactiveSec * 1000
 
   toggle: ->
-    console.log 'toggle'
     @enabled = !@enabled
     if @enabled
       # Start the timeout
