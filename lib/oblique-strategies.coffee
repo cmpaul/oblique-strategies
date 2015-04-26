@@ -22,12 +22,12 @@ module.exports = ObliqueStrategies =
   config:
     enableOnLoad:
       title: 'Enable on load',
-      description: 'Should this package start enabled?'
+      description: 'Should this package start enabled? (Default: false)'
       type: 'boolean'
       default: false
     areStrategiesSticky:
       title: 'Sticky Strategies',
-      description: 'Should strategies automatically disappear?'
+      description: 'Should strategies automatically disappear? (Default: false)'
       type: 'boolean'
       default: false
     showAfterInactivitySeconds:
