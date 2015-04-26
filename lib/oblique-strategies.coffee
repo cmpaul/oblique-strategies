@@ -15,7 +15,8 @@ module.exports = ObliqueStrategies =
   showTimeout: null
   enabled: false
   strategiesList: []
-  recentStrategiesList: []
+  recentStrategiesList: [],
+  countdown: 0
 
   # Exported configuration settings
   config:
@@ -146,15 +147,15 @@ module.exports = ObliqueStrategies =
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
     # Register command that toggles this view
+    console.log 'activate'
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
     # Shuffle and load strategies into memory
     @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
-    # Detect whether the package is enabled
-    @enabled = atom.config.get('oblique-strategies.enabled')
-    if @enabled
-      @startShowTimeout()
     # Listen for keypress events to know when to display
     @addKeyupListener()
+    # Detect whether the package is enabled
+    if atom.config.get('oblique-strategies.enableOnLoad')
+      @toggle()
 
   deactivate: ->
     @subscriptions.dispose()
@@ -162,6 +163,7 @@ module.exports = ObliqueStrategies =
   # The wonderfully efficient Fisher-Yates shuffle
   # (http://bost.ocks.org/mike/shuffle/)
   shuffle: (array) ->
+    @countdown = array.length
     m = array.length
     while m
       i = Math.floor(Math.random() * m--)
@@ -174,21 +176,19 @@ module.exports = ObliqueStrategies =
     atom.workspaceView.eachEditorView (editorView) =>
       editorView.on 'keyup', (event) =>
         if @enabled
-          console.log 'enabled'
           @startShowTimeout()
-        else
-          console.log 'disabled'
 
   show: ->
-    console.log 'show'
+    if @countdown > 0
+      @countdown--
+    else
+      @shuffle(@strategiesList)
     msg = @strategiesList.pop()
-    console.log 'msg', msg
     atom.notifications.addInfo(msg, { dismissable: atom.config.get('oblique-strategies.areStrategiesSticky') });
     @strategiesList.unshift msg
     @startShowTimeout()
 
   startShowTimeout: ->
-    console.log 'startShowTimeout'
     clearTimeout @showTimeout
     inactiveSec = atom.config.get('oblique-strategies.showAfterInactivitySeconds')
     @showTimeout = setTimeout =>
@@ -196,13 +196,14 @@ module.exports = ObliqueStrategies =
     , inactiveSec * 1000
 
   toggle: ->
+    console.log 'toggle'
     @enabled = !@enabled
     if @enabled
-      console.log 'start'
       # Start the timeout
+      atom.notifications.addInfo('Oblique Strategies: Enabled');
       @startShowTimeout()
     else
       # Stop existing timeout
-      console.log 'stop'
+      atom.notifications.addInfo('Oblique Strategies: Disabled');
       clearTimeout @showTimeout
       @showTimeout = null

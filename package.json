@@ -3,9 +3,6 @@
   "main": "./lib/oblique-strategies",
   "version": "0.0.1",
   "description": "Oblique strategies for developers",
-  "activationCommands": {
-    "atom-workspace": "oblique-strategies:toggle"
-  },
   "repository": "https://github.com/cmpaul/oblique-strategies",
   "license": "MIT",
   "engines": {
