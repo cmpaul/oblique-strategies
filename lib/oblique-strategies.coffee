@@ -147,7 +147,6 @@ module.exports = ObliqueStrategies =
     # Events subscribed to in atom's system can be easily cleaned up with a CompositeDisposable
     @subscriptions = new CompositeDisposable
     # Register command that toggles this view
-    console.log 'activate'
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
     # Shuffle and load strategies into memory
     @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
