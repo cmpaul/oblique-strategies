@@ -1,4 +1,4 @@
-## 1.0.0 - First Release
+## 0.1.0 - First Release
 * Basic functionality, including 93 strategies for randomized display.
 * Basic configurability, including:
     * Sticky strategies
