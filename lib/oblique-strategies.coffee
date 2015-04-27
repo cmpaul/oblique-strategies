@@ -22,19 +22,24 @@ module.exports = ObliqueStrategies =
   config:
     enableOnLoad:
       title: 'Enable on load',
-      description: 'Should this package start enabled? (Default: false)'
+      description: 'Should this package activate itself when Atom loads? (Default: checked)'
       type: 'boolean'
-      default: false
+      default: true
     areStrategiesSticky:
-      title: 'Sticky Strategies',
-      description: 'Should strategies automatically disappear? (Default: false)'
+      title: 'Sticky strategies',
+      description: 'Should strategies hang around (checked) or dismiss themselves (unchecked)? (Default: unchecked)'
       type: 'boolean'
       default: false
+    randomizeStrategies:
+      title: 'Randomize strategies',
+      description: 'Should strategies be randomized? (Default: checked)'
+      type: 'boolean'
+      default: true
     showAfterInactivitySeconds:
       title: 'Inactivity Trigger'
       description: 'Number of seconds of inactivity before a strategy is displayed.'
       type: 'integer'
-      default: 60
+      default: 30
       minimum: 5
     strategiesList:
       title: 'Strategies List'
@@ -148,8 +153,8 @@ module.exports = ObliqueStrategies =
     @subscriptions = new CompositeDisposable
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
-    # Shuffle and load strategies into memory
-    @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
+    # Pre-load list into memory
+    @strategiesList = atom.config.get('oblique-strategies.strategiesList')
     # Detect editor inactivity
     atom.workspace.observeTextEditors (editor) =>
       editor.onDidStopChanging () =>
@@ -165,7 +170,6 @@ module.exports = ObliqueStrategies =
   # The wonderfully efficient Fisher-Yates shuffle
   # (http://bost.ocks.org/mike/shuffle/)
   shuffle: (array) ->
-    @countdown = array.length
     m = array.length
     while m
       i = Math.floor(Math.random() * m--)
@@ -175,13 +179,15 @@ module.exports = ObliqueStrategies =
     return array
 
   show: ->
-    if @countdown > 0
-      @countdown--
-    else
-      @shuffle(@strategiesList)
-    msg = @strategiesList.pop()
+    if atom.config.get('oblique-strategies.randomizeStrategies')
+      if @countdown > 0
+        @countdown--
+      else
+        @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
+        @countdown = @strategiesList.length
+    msg = @strategiesList.shift()
     atom.notifications.addInfo(msg, { dismissable: atom.config.get('oblique-strategies.areStrategiesSticky') });
-    @strategiesList.unshift msg
+    @strategiesList.push msg
     @startShowTimeout()
 
   startShowTimeout: ->
@@ -195,10 +201,10 @@ module.exports = ObliqueStrategies =
     @enabled = !@enabled
     if @enabled
       # Start the timeout
-      atom.notifications.addInfo('Oblique Strategies: Enabled');
+      atom.notifications.addInfo('Oblique Strategies: Enabled', { dismissable: false });
       @startShowTimeout()
     else
       # Stop existing timeout
-      atom.notifications.addInfo('Oblique Strategies: Disabled');
+      atom.notifications.addInfo('Oblique Strategies: Disabled', { dismissable: false });
       clearTimeout @showTimeout
       @showTimeout = null
