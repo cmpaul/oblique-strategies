@@ -1,7 +1,7 @@
 {
   "name": "oblique-strategies",
   "main": "./lib/oblique-strategies",
-  "version": "0.0.1",
+  "version": "1.0.0",
   "description": "Oblique strategies for developers",
   "repository": "https://github.com/cmpaul/oblique-strategies",
   "license": "MIT",
