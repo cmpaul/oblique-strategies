@@ -69,7 +69,7 @@ module.exports = ObliqueStrategies =
         'Is it the bug you think it is?',
         'Is it a typo?',
         'Stop and think.',
-        'If you lack motivation, find the most interesting thing in the project, start on that, and branch from there.',
+        'If you lack motivation, find the most interesting thing and branch from there.',
         'Work append-only.',
         'Run through the thornbushes.',
         'Change your mind.',
@@ -91,7 +91,6 @@ module.exports = ObliqueStrategies =
         'Do it the wrong way.',
         'Do something.',
         'Put the problem aside and work on something else.',
-        'Take a walk.',
         # The following are selected oblique strategies
         # Oblique Strategies © 1975, 1978, and 1979 Brian Eno/Peter Schmidt
         'A line has two sides.',
@@ -117,7 +116,6 @@ module.exports = ObliqueStrategies =
         'Emphasize differences.',
         'Emphasize repetition.',
         'Emphasize the flaws.',
-        'Look to the left and the right. Stretch your neck.',
         'Give way to your worst impulse.',
         'Honor the error as a hidden intention.',
         'How would you have done it?',
@@ -145,7 +143,10 @@ module.exports = ObliqueStrategies =
         'What would someone you admire do?',
         'What wouldn\'t you do?',
         'Work at a different speed.',
-        'You are an engineer.'
+        'You are an engineer.',
+        # Mine :)
+        'Take a walk.',
+        'Look to the left and the right. Stretch your neck.'
       ]
 
   activate: (state) ->
