@@ -19,7 +19,7 @@ Politely displays a random strategy for overcoming programming blocks if it dete
   * *Inactivity trigger* - Number of seconds of inactivity before a strategy will be displayed.
   * *Strategies list* - A comma-separated list of strategies that will be used instead of the default strategies that come with this package.
 
-  ![Package configuration](https://raw.githubusercontent.com/cmpaul/oblique-strategies/master/settings.gif)
+  ![Package configuration](https://raw.githubusercontent.com/cmpaul/oblique-strategies/master/settings.png)
 
 ## Why
 In 1975, Brian Eno and Peter Schmidt created a deck of cards printed with aphorisms designed to be drawn at random for help breaking through creative blocks. (They've since gone through many iterations.)
