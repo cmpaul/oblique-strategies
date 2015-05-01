@@ -1,2 +1,3 @@
 'atom-workspace':
   'ctrl-alt-o': 'oblique-strategies:toggle'
+  'ctrl-alt-cmd-o': 'oblique-strategies:show'

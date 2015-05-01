@@ -1,9 +1,8 @@
-# TODO: How to set this up to start automatically?
 'context-menu':
   'atom-text-editor': [
     {
-      'label': 'Toggle Oblique Strategies'
-      'command': 'oblique-strategies:toggle'
+      'label': 'Show a strategy'
+      'command': 'oblique-strategies:show'
     }
   ]
 'menu': [
@@ -13,8 +12,12 @@
       'label': 'Oblique Strategies'
       'submenu': [
         {
-          'label': 'Toggle'
+          'label': 'Toggle Inactivity Monitor'
           'command': 'oblique-strategies:toggle'
+        },
+        {
+          'label': 'Show a Strategy'
+          'command': 'oblique-strategies:show'
         }
       ]
     ]

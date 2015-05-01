@@ -1,11 +1,3 @@
-# I can't take credit for the prompts! Kevin Lawler compiled
-# these here: http://kevinlawler.com/prompts
-#
-# I highly recommend reading these to get more information on
-# each strategy.
-#
-# Enjoy!
-
 {CompositeDisposable} = require 'atom'
 
 module.exports = ObliqueStrategies =
@@ -48,7 +40,7 @@ module.exports = ObliqueStrategies =
       items:
         type: 'string'
       default: [
-        # The following are oblique strategies for programmers
+        # The following are from Oblique Strategies: Prompts for Programmers
         # by Kevin Lawler, http://kevinlawler.com/prompts
         'Look for a hack.',
         'Look for a good enough approximation.',
@@ -154,6 +146,7 @@ module.exports = ObliqueStrategies =
     @subscriptions = new CompositeDisposable
     # Register command that toggles this view
     @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:toggle': => @toggle()
+    @subscriptions.add atom.commands.add 'atom-workspace', 'oblique-strategies:show': => @show()
     # Pre-load list into memory
     @strategiesList = atom.config.get('oblique-strategies.strategiesList')
     # Detect editor inactivity
