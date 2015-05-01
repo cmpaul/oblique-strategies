@@ -1,4 +1,4 @@
-# oblique-strategies package
+# oblique-strategies
 
 A tiny Atom package for developer inspiration.
 
@@ -7,7 +7,10 @@ A tiny Atom package for developer inspiration.
 ![After a few seconds of inactivity, a randomized strategy will be displayed as a notification.](https://raw.githubusercontent.com/cmpaul/oblique-strategies/master/demo.gif)
 
 ## What
-Politely displays a random strategy for overcoming programming blocks if it detects keyboard inactivity across all Atom editors.
+Politely displays a random strategy for overcoming programming blocks. It can be configured to display a strategy when requested or when it detects keyboard inactivity across all Atom editors.
+
+## Why
+In 1975, Brian Eno and Peter Schmidt created a deck of cards printed with aphorisms designed to be drawn at random for help breaking through creative blocks. In April of 2015, I ran across Kevin Lawler's [Prompts for Programmers](http://kevinlawler.com/prompts) and took it as a call to action. This Atom plugin is the result of that action. I highly recommend reading Kevin's post for more detail on each strategy.
 
 ## How
 * Download the [Atom editor](https://atom.io)
@@ -21,7 +24,5 @@ Politely displays a random strategy for overcoming programming blocks if it dete
 
   ![Package configuration](https://raw.githubusercontent.com/cmpaul/oblique-strategies/master/settings.png)
 
-## Why
-In 1975, Brian Eno and Peter Schmidt created a deck of cards printed with aphorisms designed to be drawn at random for help breaking through creative blocks. (They've since gone through many iterations.)
-
-In April of 2015, I ran across Kevin Lawler's [Prompts for Programmers](http://kevinlawler.com/prompts) and took it as a call to action. This Atom plugin is the result of that action.
+## TODO
+* Add more tests
