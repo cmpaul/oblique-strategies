@@ -16,8 +16,9 @@ In 1975, Brian Eno and Peter Schmidt created a deck of cards printed with aphori
 * Download the [Atom editor](https://atom.io)
 * Install the [oblique-strategies package](https://atom.io/packages/oblique-strategies)
 * Configure the package to your liking:
-  * *Enable on load* - Checked if the package should load automatically.
   * *Sticky strategies* - Checked if strategies should not auto-dismiss.
+  * *Enable on load* - Checked if the package should load automatically.
+  * *Notification type* - Select the type of notification that should be used to display strategies.
   * *Randomize strategies* - Checked if strategies should be displayed in random order.
   * *Inactivity trigger* - Number of seconds of inactivity before a strategy will be displayed.
   * *Strategies list* - A comma-separated list of strategies that will be used instead of the default strategies that come with this package.
