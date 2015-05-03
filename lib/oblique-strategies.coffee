@@ -38,7 +38,7 @@ module.exports = ObliqueStrategies =
       description: 'The type of notification that should be used to display the strategies. (Default: Info)'
       type: 'string',
       default: 'Info',
-      enum: ['Success', 'Info', 'Warning', 'Error', 'Fatal']
+      enum: ['Success', 'Info', 'Warning', 'Error']
     strategiesList:
       title: 'Strategies List'
       description: 'A comma-separated list of strategies that will be displayed at random for inspiration after a period of inactivity.'
