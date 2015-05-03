@@ -33,6 +33,12 @@ module.exports = ObliqueStrategies =
       type: 'integer'
       default: 30
       minimum: 5
+    notificationType:
+      title: 'Notification Type',
+      description: 'The type of notification that should be used to display the strategies. (Default: Info)'
+      type: 'string',
+      default: 'Info',
+      enum: ['Success', 'Info', 'Warning', 'Error', 'Fatal']
     strategiesList:
       title: 'Strategies List'
       description: 'A comma-separated list of strategies that will be displayed at random for inspiration after a period of inactivity.'
@@ -150,7 +156,7 @@ module.exports = ObliqueStrategies =
     # Pre-load list into memory
     @strategiesList = atom.config.get('oblique-strategies.strategiesList')
     # Detect editor inactivity
-    atom.workspace.observeTextEditors (editor) =>
+    @subscriptions.add atom.workspace.observeTextEditors (editor) =>
       editor.onDidStopChanging () =>
         if @enabled
           @startShowTimeout()
@@ -180,7 +186,8 @@ module.exports = ObliqueStrategies =
         @strategiesList = @shuffle(atom.config.get('oblique-strategies.strategiesList'))
         @countdown = @strategiesList.length
     msg = @strategiesList.shift()
-    atom.notifications.addInfo(msg, { dismissable: atom.config.get('oblique-strategies.areStrategiesSticky') });
+    addFn = 'add' + atom.config.get('oblique-strategies.notificationType')
+    atom.notifications[addFn](msg, { dismissable: atom.config.get('oblique-strategies.areStrategiesSticky') });
     @strategiesList.push msg
     @startShowTimeout()
 
