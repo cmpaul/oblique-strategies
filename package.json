@@ -1,7 +1,7 @@
 {
   "name": "oblique-strategies",
   "main": "./lib/oblique-strategies",
-  "version": "0.1.3",
+  "version": "0.2.0",
   "description": "A tiny Atom package for developer inspiration.",
   "repository": "https://github.com/cmpaul/oblique-strategies",
   "license": "MIT",
