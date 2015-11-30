@@ -27,3 +27,7 @@ In 1975, Brian Eno and Peter Schmidt created a deck of cards printed with aphori
 
 ## TODO
 * Add more tests
+
+
+[![Bitdeli Badge](https://d2weczhvl823v0.cloudfront.net/cmpaul/oblique-strategies/trend.png)](https://bitdeli.com/free "Bitdeli Badge")
+
